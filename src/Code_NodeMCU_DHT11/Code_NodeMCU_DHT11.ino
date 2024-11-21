@@ -2,7 +2,11 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
+<<<<<<< HEAD
 #define WIFI_SSID       "KNET_2G" // Nome da rede wifi
+=======
+#define WIFI_SSID       "" // Nome da rede wifi
+>>>>>>> 76094c2 (sensitive data removed)
 #define WIFI_PASS       "" // Senha da rede wifi
 
 #define DHTPIN          2     // Pino onde o sensor DHT11 está conectado
