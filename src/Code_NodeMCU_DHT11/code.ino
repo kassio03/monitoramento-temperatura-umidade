@@ -2,11 +2,7 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-<<<<<<< HEAD
-#define WIFI_SSID       "KNET_2G" // Nome da rede wifi
-=======
 #define WIFI_SSID       "" // Nome da rede wifi
->>>>>>> 76094c2 (sensitive data removed)
 #define WIFI_PASS       "" // Senha da rede wifi
 
 #define DHTPIN          2     // Pino onde o sensor DHT11 está conectado
@@ -20,17 +16,12 @@
 #define MQTT_PASSWORD   ""    // A senha configurada no broker
 #define MQTT_TOPIC      "ksdht11/th" // tópico para publicação
 
-#define WARNING_TEMP    40 // Em celsius
-#define WARNING_HUM     30 // Porcentagem mínima de UR
+#define WARNING_TEMP    30 // Em celsius
+#define WARNING_HUM     60 // Porcentagem mínima de UR
 
 DHT dht(DHTPIN, DHTTYPE);
 WiFiClient espClient;
 PubSubClient client(espClient);
-
-struct SensorData {
-  float temperature;
-  float humidity;
-};
 
 void setup() {
   Serial.begin(115200);
@@ -67,7 +58,7 @@ void loop() {
     delay(400);
     noTone(BUZZER_PIN);
   }
-
+  delay(8000);
   // Toque de alerta em caso de umidade relativa do ar abaixo do esperado
   if (hum < WARNING_HUM) {
     tone(BUZZER_PIN, 800);
@@ -84,13 +75,9 @@ void loop() {
   client.connect("NodeMCU_Client", MQTT_USER, MQTT_PASSWORD);
   
   if (client.connected()) {
-    struct SensorData data;
-    data.temperature = temp;
-    data.humidity = hum;
-
     // Convertendo a estrutura SensorData para uma string
     char payload[50];  // ajuste o tamanho conforme necessário
-    sprintf(payload, "{\"temperature\": %.2f, \"humidity\": %.2f}", data.temperature, data.humidity);
+    sprintf(payload, "{\"temperature\": %.2f, \"humidity\": %.2f}", temp, hum);
 
     Serial.println("Conectado ao Broker, tentando publicar...");
 
